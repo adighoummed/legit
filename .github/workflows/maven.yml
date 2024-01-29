@@ -31,8 +31,6 @@ jobs:
         cache: maven
     - name: Use Node.js
       uses: actions/setup-node@v3
-    - name: Install npx
-      run: npm i -g npx
     - name: Get relevant chromedriver print current version of chrome on worker
       run: npx @puppeteer/browsers install chromedriver@`/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version | cut -d ' ' -f 3`   
     - name: List content of this file

@@ -29,8 +29,8 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-    - name: print current working directory and file
-      run: ls -ahl ./legit
+    - name: print current version of chrome on worker
+      run: /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --version
     - name: Build with Maven
       run: mvn -B package --file ./legit/pom.xml
     - name: Run basic E2E test

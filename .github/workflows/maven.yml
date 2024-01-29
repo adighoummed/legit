@@ -38,7 +38,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file ./legit/pom.xml
     - name: Run basic E2E test
-      run: mvn clean test -DsuiteXmlFile=./legit/suite/login_test_suite.xml
+      run: mvn -f ./legit/pom.xml clean test -DsuiteXmlFile=./legit/suite/login_test_suite.xml
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph

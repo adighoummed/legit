@@ -29,6 +29,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+    - name: print current working directory and file
+      run: ls -ahl
     - name: Build with Maven
       run: mvn -B package --file ./pom.xml
     - name: Run basic E2E test

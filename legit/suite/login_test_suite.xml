@@ -3,7 +3,7 @@
 <suite name="DemoSuite">
     <test name="OrangeHRMLogin">
         <classes>
-            <class name="LoginTest"/>
+            <class name="BasicE2ETest"/>
         </classes>
     </test>
 </suite>

@@ -1,25 +1,57 @@
 package pom;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import util.ProductUtil;
+
 public class CartPage extends BasePage{
-    @FindBy(xpath = "//button[normalize-space()='Proceed to Checkout']")
+    private static Logger logger =Logger.getLogger(CartPage.class);
+    public static final String PROCEED_TO_CHECKOUT_BUTTON_XPATH = "//button[normalize-space()='Proceed to Checkout']";
+    public static final String CART_ITEMS_XPATH = "//div[@id='root']/div/div/div/ul/li";
+    @FindBy(xpath = PROCEED_TO_CHECKOUT_BUTTON_XPATH)
     private WebElement proceedToCheckout;
+    @FindBy(xpath = CART_ITEMS_XPATH)
+    private List<WebElement> cartItems;
 
-    @FindBy(id = "remove-product_id_1-product")
-    private WebElement removeProduct1;
-    @FindBy(id = "remove-product_id_2-product")
-    private WebElement removeProduct2;
-    @FindBy(id = "remove-product_id_3-product")
-    private WebElement removeProduct3;
-    @FindBy(id = "remove-product_id_4-product")
-    private WebElement removeProduct4;
-    @FindBy(id = "remove-product_id_5-product")
-    private WebElement removeProduct5;
+    public CartPage(WebDriver driver) { super(driver); }
 
-    public CartPage(WebDriver driver, WebElement removeProduct1) { super(driver);
-        this.removeProduct1 = removeProduct1;
+    public void proceedToCheckout(){
+        this.proceedToCheckout.click();
     }
+    public Map<Integer, Integer> getProducts(){
+        logger.debug("Getting products in the cart");
+        return ProductUtil.getProducts(cartItems);
+    }
+    private Optional<WebElement> getProductInCart(int product){
+        logger.debug("Trying to find product " + product + " in cart");
+        return cartItems.stream().filter(item -> item.getText().contains("Product " + product)).findAny();
+    }
+    public boolean isProductInCart(int product){
+        return getProductInCart(product).isPresent();
+    }
+
+    public int getQuantityOfProductInCart(int product){
+        Optional<WebElement> item = getProductInCart(product);
+        if (item.isPresent()){
+            String quantityString = item.get().getText();
+            return Integer.parseInt(quantityString.substring(quantityString.indexOf(' ') + 1, quantityString.length() - 1));
+        }
+        else{
+            //todo logger
+            //todo special exception
+            throw new RuntimeException();
+        }
+    }
+
+
 }

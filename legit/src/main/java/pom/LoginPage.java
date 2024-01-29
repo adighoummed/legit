@@ -1,13 +1,13 @@
 package pom;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
-// page_url = about:blank
+import org.apache.log4j.Logger;
+
 public class LoginPage extends BasePage{
+    private static Logger logger = Logger.getLogger(LoginPage.class);
     @FindBy(id = "amplify-id-:r1:")
     private WebElement email;
     @FindBy(id = "amplify-id-:r4:")
@@ -30,6 +30,7 @@ public class LoginPage extends BasePage{
         this.signInButton.click();
     }
     public void login(String email, String password){
+        logger.debug("Logging in with email " + email);
         enterEmail(email);
         enterPassword(password);
         login();
